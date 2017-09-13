@@ -99,3 +99,21 @@ ENV/
 
 # mypy
 .mypy_cache/
+#VGA
+.DS_Store
+Data/*
+!Data/download_data.sh
+.idea*
+*.pdf
+*.jpg
+*.pyc
+sample.py
+vggtest.py
+*.pem
+amazon_ssh.sh
+awstransfer.sh
+localtrain.py
+vislstm.png
+sample_aws.sh
+train_fc7.h5
+train_image_id_list.h5
