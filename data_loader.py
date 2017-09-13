@@ -31,32 +31,32 @@ def prepare_training_data(version = 2, data_dir = 'Data'):
 			data = pickle.load(f)
 			return data
 
-	print "Loading Training questions"
+	print("Loading Training questions")
 	with open(t_q_json_file) as f:
 		t_questions = json.loads(f.read())
 	
-	print "Loading Training anwers"
+	print("Loading Training anwers")
 	with open(t_a_json_file) as f:
 		t_answers = json.loads(f.read())
 
-	print "Loading Val questions"
+	print("Loading Val questions")
 	with open(v_q_json_file) as f:
 		v_questions = json.loads(f.read())
 	
-	print "Loading Val answers"
+	print("Loading Val answers")
 	with open(v_a_json_file) as f:
 		v_answers = json.loads(f.read())
 
 	
-	print "Ans", len(t_answers['annotations']), len(v_answers['annotations'])
-	print "Qu", len(t_questions['questions']), len(v_questions['questions'])
+	print("Ans", len(t_answers['annotations']), len(v_answers['annotations']))
+	print("Qu", len(t_questions['questions']), len(v_questions['questions']))
 
 	answers = t_answers['annotations'] + v_answers['annotations']
 	questions = t_questions['questions'] + v_questions['questions']
 	
 	answer_vocab = make_answer_vocab(answers)
 	question_vocab, max_question_length = make_questions_vocab(questions, answers, answer_vocab)
-	print "Max Question Length", max_question_length
+	print("Max Question Length", max_question_length)
 	word_regex = re.compile(r'\w+')
 	training_data = []
 	for i,question in enumerate( t_questions['questions']):
@@ -73,7 +73,7 @@ def prepare_training_data(version = 2, data_dir = 'Data'):
 			for i in range(0, len(question_words)):
 				training_data[-1]['question'][base + i] = question_vocab[ question_words[i] ]
 
-	print "Training Data", len(training_data)
+	print("Training Data", len(training_data))
 	val_data = []
 	for i,question in enumerate( v_questions['questions']):
 		ans = v_answers['annotations'][i]['multiple_choice_answer']
@@ -89,7 +89,7 @@ def prepare_training_data(version = 2, data_dir = 'Data'):
 			for i in range(0, len(question_words)):
 				val_data[-1]['question'][base + i] = question_vocab[ question_words[i] ]
 
-	print "Validation Data", len(val_data)
+	print("Validation Data", len(val_data))
 
 	data = {
 		'training' : training_data,
@@ -99,7 +99,7 @@ def prepare_training_data(version = 2, data_dir = 'Data'):
 		'max_question_length' : max_question_length
 	}
 
-	print "Saving qa_data"
+	print("Saving qa_data")
 	with open(qa_data_file, 'wb') as f:
 		pickle.dump(data, f)
 
@@ -136,7 +136,7 @@ def make_answer_vocab(answers):
 		else:
 			answer_frequency[answer] = 1
 
-	answer_frequency_tuples = [ (-frequency, answer) for answer, frequency in answer_frequency.iteritems()]
+	answer_frequency_tuples = [ (-frequency, answer) for answer, frequency in answer_frequency.items()]
 	answer_frequency_tuples.sort()
 	answer_frequency_tuples = answer_frequency_tuples[0:top_n-1]
 
@@ -171,7 +171,7 @@ def make_questions_vocab(questions, answers, answer_vocab):
 
 
 	qw_freq_threhold = 0
-	qw_tuples = [ (-frequency, qw) for qw, frequency in question_frequency.iteritems()]
+	qw_tuples = [ (-frequency, qw) for qw, frequency in question_frequency.items()]
 	# qw_tuples.sort()
 
 	qw_vocab = {}

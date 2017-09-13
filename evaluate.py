@@ -34,17 +34,17 @@ def main():
                        help='VQA data version')
 
 	args = parser.parse_args()
-	print "Reading QA DATA"
+	print("Reading QA DATA")
 	# qa_data = data_loader.load_questions_answers(args)
 	qa_data = data_loader.load_questions_answers(args.version, args.data_dir)
 
-	print "Reading fc7 features"
+	print("Reading fc7 features")
 	fc7_features, image_id_list = data_loader.load_fc7_features(args.data_dir, 'val')
-	print "FC7 features", fc7_features.shape
-	print "image_id_list", image_id_list.shape
+	print("FC7 features", fc7_features.shape)
+	print("image_id_list", image_id_list.shape)
 
 	image_id_map = {}
-	for i in xrange(len(image_id_list)):
+	for i in range(len(image_id_list)):
 		image_id_map[ image_id_list[i] ] = i
 
 	ans_map = { qa_data['answer_vocab'][ans] : ans for ans in qa_data['answer_vocab']}
@@ -85,16 +85,16 @@ def main():
 		batch_no += 1
 		if args.debug:
 			for idx, p in enumerate(pred):
-				print ans_map[p], ans_map[ np.argmax(answer[idx])]
+				print(ans_map[p], ans_map[ np.argmax(answer[idx])])
 
 		correct_predictions = np.equal(pred, np.argmax(answer, 1))
 		correct_predictions = correct_predictions.astype('float32')
 		accuracy = correct_predictions.mean()
-		print "Acc", accuracy
+		print("Acc", accuracy)
 		avg_accuracy += accuracy
 		total += 1
 	
-	print "Acc", avg_accuracy/total
+	print("Acc", avg_accuracy/total)
 
 
 def get_batch(batch_no, batch_size, fc7_features, image_id_map, qa_data, split):

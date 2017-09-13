@@ -34,8 +34,8 @@ def main():
 
 	args = parser.parse_args()
 
-	print "Image:", args.image_path
-	print "Question:", args.question
+	print("Image:", args.image_path)
+	print("Question:", args.question)
 
 	vocab_data = data_loader.get_question_answer_vocab(args.data_dir)
 	qvocab = vocab_data['question_vocab']
@@ -79,12 +79,12 @@ def main():
     })
 
 	
-	print "Ans:", ans_map[pred[0]]
+	print("Ans:", ans_map[pred[0]])
 	answer_probab_tuples = [(-answer_probab[0][idx], idx) for idx in range(len(answer_probab[0]))]
 	answer_probab_tuples.sort()
-	print "Top Answers"
+	print("Top Answers")
 	for i in range(5):
-		print ans_map[ answer_probab_tuples[i][1] ]
+		print(ans_map[ answer_probab_tuples[i][1] ])
 
 if __name__ == '__main__':
 	main()

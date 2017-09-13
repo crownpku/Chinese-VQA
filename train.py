@@ -34,16 +34,16 @@ def main():
                        help='VQA data version')
 
 	args = parser.parse_args()
-	print "Reading QA DATA"
+	print("Reading QA DATA")
 	qa_data = data_loader.load_questions_answers(args.version, args.data_dir)
 	
-	print "Reading fc7 features"
+	print("Reading fc7 features")
 	fc7_features, image_id_list = data_loader.load_fc7_features(args.data_dir, 'train')
-	print "FC7 features", fc7_features.shape
-	print "image_id_list", image_id_list.shape
+	print("FC7 features", fc7_features.shape)
+	print("image_id_list", image_id_list.shape)
 
 	image_id_map = {}
-	for i in xrange(len(image_id_list)):
+	for i in range(len(image_id_list)):
 		image_id_map[ image_id_list[i] ] = i
 
 	ans_map = { qa_data['answer_vocab'][ans] : ans for ans in qa_data['answer_vocab']}
@@ -73,7 +73,7 @@ def main():
 	if args.resume_model:
 		saver.restore(sess, args.resume_model)
 
-	for i in xrange(args.epochs):
+	for i in range(args.epochs):
 		batch_no = 0
 
 		while (batch_no*args.batch_size) < len(qa_data['training']):
@@ -88,14 +88,14 @@ def main():
 			batch_no += 1
 			if args.debug:
 				for idx, p in enumerate(pred):
-					print ans_map[p], ans_map[ np.argmax(answer[idx])]
+					print(ans_map[p], ans_map[ np.argmax(answer[idx])])
 
-				print "Loss", loss_value, batch_no, i
-				print "Accuracy", accuracy
-				print "---------------"
+				print("Loss", loss_value, batch_no, i)
+				print("Accuracy", accuracy)
+				print("---------------")
 			else:
-				print "Loss", loss_value, batch_no, i
-				print "Training Accuracy", accuracy
+				print("Loss", loss_value, batch_no, i)
+				print("Training Accuracy", accuracy)
 			
 		save_path = saver.save(sess, "Data/Models/model{}.ckpt".format(i))
 
